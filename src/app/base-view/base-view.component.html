@@ -1,0 +1,11 @@
+<div class="row">
+    <div class="col">
+        <button (click)="pingpong()">Ping</button>
+        {{pong}}
+    </div>
+    <div class="col">
+        <input type="text">
+        <mat-checkbox (input)="onChangeOrder()" [(ngModel)]="this.numbersRequest.order">ASC / DESC</mat-checkbox>
+        <button (click)="submitNumbers()">Submit numbers</button>
+    </div>
+</div>
