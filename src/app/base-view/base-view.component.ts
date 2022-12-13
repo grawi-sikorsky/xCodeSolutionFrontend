@@ -14,7 +14,11 @@ export class BaseViewComponent {
   testUrl:string = "http://localhost:8080/status/ping"
 
   pong:string = "";
+  pongCounter:number = 0;
   numbersRequest:NumbersRequest = new NumbersRequest();
+  numbersResponse:number[] = [];
+  toggleOrder:boolean = false;
+  numbersString:string = "";
 
   ngOnInit(){
 
@@ -24,15 +28,27 @@ export class BaseViewComponent {
     return this.http.get(this.testUrl, { responseType: 'text' }).subscribe( data => {
       console.log(data);
       this.pong = data;
+      this.pongCounter++;
     });
   }
 
+  parseNumbersToArray(text:string){
+    let temp = text.split(",").map( e => { return parseInt(e); });
+    this.numbersRequest.numbers = temp;
+  }
+
   submitNumbers(){
-    this.http.post<NumbersRequest>(this.apiUrl, this.numbersRequest).subscribe(); 
+    this.parseNumbersToArray(this.numbersString);
+    console.log(this.numbersRequest);
+    this.http.post<number[]>(this.apiUrl, this.numbersRequest).subscribe( response => {
+      console.log(response);
+      this.numbersResponse = response;
+    });
   }
 
   onChangeOrder(){
-    
+    if(this.toggleOrder) this.numbersRequest.order = "ASC"
+    else this.numbersRequest.order = "DESC";
   }
 
 }

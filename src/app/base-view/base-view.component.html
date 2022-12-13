@@ -1,11 +1,14 @@
 <div class="row">
     <div class="col">
         <button (click)="pingpong()">Ping</button>
-        {{pong}}
+        {{pong}} <span *ngIf="pongCounter">{{pongCounter}}</span>
     </div>
     <div class="col">
-        <input type="text">
-        <mat-checkbox (input)="onChangeOrder()" [(ngModel)]="this.numbersRequest.order">ASC / DESC</mat-checkbox>
+        <input type="text" [(ngModel)]="this.numbersString">
+        <mat-checkbox (input)="onChangeOrder()" [(ngModel)]="this.toggleOrder">ASC / DESC</mat-checkbox>
         <button (click)="submitNumbers()">Submit numbers</button>
+    </div>
+    <div class="col">
+        Wynik: {{numbersResponse}}
     </div>
 </div>
