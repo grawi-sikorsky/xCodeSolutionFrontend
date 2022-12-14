@@ -1,7 +1,6 @@
-import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Component } from '@angular/core';
 import { NumbersRequest, NumbersResponse } from '../numbers-request';
-import { filter } from 'rxjs';
 
 @Component({
   selector: 'app-base-view',

@@ -13,16 +13,16 @@
     </div>
 
 </div>
-<div class="row" style="margin:25px">
+<div class="row" style="margin:25px; text-align: center;">
     <div class="col">
         Podaj liczby (calkowite oddzielone przecinkiem): 
         <textarea matInput type="text" [(ngModel)]="this.numbersString" (input)="submitNumbers()" style="width:100%"></textarea>
     </div>
-    <div class="col">
-        <mat-slide-toggle (click)="onChangeOrder()" [(ngModel)]="this.orderByAscending"> Order by Ascending </mat-slide-toggle>
-    </div>
-    <div class="col">
-        <button mat-raised-button color="primary" (click)="submitNumbers()">Submit numbers</button>
+    <div class="col" style="margin: auto;">
+        <mat-slide-toggle (click)="onChangeOrder()" [(ngModel)]="this.orderByAscending">
+            <span *ngIf="orderByAscending">Ascending order</span>
+            <span *ngIf="!orderByAscending">Descending order</span>
+        </mat-slide-toggle>
     </div>
     <div class="col">
         Wynik: 
