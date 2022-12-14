@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { NumbersRequest } from '../numbers-request';
+import { NumbersRequest, NumbersResponse } from '../numbers-request';
 
 @Component({
   selector: 'app-base-view',
@@ -15,10 +15,12 @@ export class BaseViewComponent {
 
   pong:string = "";
   pongCounter:number = 0;
+
   numbersRequest:NumbersRequest = new NumbersRequest();
-  numbersResponse:number[] = [];
-  toggleOrder:boolean = false;
+  numbersResponse:NumbersResponse = new NumbersResponse();
+  orderByAscending:boolean = true;
   numbersString:string = "";
+  responseString:string = "";
 
   ngOnInit(){
 
@@ -34,20 +36,26 @@ export class BaseViewComponent {
 
   parseNumbersToArray(text:string){
     let temp = text.split(",").map( e => { return parseInt(e); });
+    temp.forEach((element,index) => {
+      if(Number.isNaN(element) || element===null || element===undefined) temp.splice(index,1);
+    });
     this.numbersRequest.numbers = temp;
   }
 
   submitNumbers(){
     this.parseNumbersToArray(this.numbersString);
-    console.log(this.numbersRequest);
-    this.http.post<number[]>(this.apiUrl, this.numbersRequest).subscribe( response => {
-      console.log(response);
-      this.numbersResponse = response;
+    console.warn(this.numbersRequest);
+
+    this.http.post<NumbersResponse>(this.apiUrl, this.numbersRequest).subscribe( response => {
+      this.responseString = "";
+      response.numbers.forEach(e => {
+        this.responseString += e.toString() + ",";
+      });      
     });
   }
 
   onChangeOrder(){
-    if(this.toggleOrder) this.numbersRequest.order = "ASC"
+    if(this.orderByAscending) this.numbersRequest.order = "ASC"
     else this.numbersRequest.order = "DESC";
   }
 

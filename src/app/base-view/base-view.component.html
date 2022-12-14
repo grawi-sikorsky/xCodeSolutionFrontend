@@ -1,14 +1,29 @@
-<div class="row">
+<div class="row" style="margin: 25px;">
     <div class="col">
-        <button (click)="pingpong()">Ping</button>
-        {{pong}} <span *ngIf="pongCounter">{{pongCounter}}</span>
+        <table class="pingpong" align="center">
+            <tr>
+                <td style="padding: 25px;">
+                    <button mat-raised-button color="primary" (click)="pingpong()">Ping</button>
+                </td>
+                <td>
+                    {{pong}} <span *ngIf="pongCounter"> {{pongCounter}} </span>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+</div>
+<div class="row" style="margin:25px">
+    <div class="col">
+        Podaj liczby (calkowite oddzielone przecinkiem): <input type="text" [(ngModel)]="this.numbersString">
     </div>
     <div class="col">
-        <input type="text" [(ngModel)]="this.numbersString">
-        <mat-checkbox (input)="onChangeOrder()" [(ngModel)]="this.toggleOrder">ASC / DESC</mat-checkbox>
-        <button (click)="submitNumbers()">Submit numbers</button>
+        <mat-slide-toggle (click)="onChangeOrder()" [(ngModel)]="this.orderByAscending"> Order by Ascending </mat-slide-toggle>
     </div>
     <div class="col">
-        Wynik: {{numbersResponse}}
+        <button mat-raised-button color="primary" (click)="submitNumbers()">Submit numbers</button>
+    </div>
+    <div class="col">
+        Wynik: <input type="text" [(ngModel)]="this.responseString" disabled="true">
     </div>
 </div>

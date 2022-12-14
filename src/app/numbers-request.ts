@@ -1,4 +1,8 @@
 export class NumbersRequest {
     numbers:number[] = [];
-    order:string="";
+    order:string="ASC";
+}
+
+export class NumbersResponse {
+    numbers:number[] = [];
 }
