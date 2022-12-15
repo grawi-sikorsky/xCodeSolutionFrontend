@@ -11,7 +11,6 @@
             </tr>
         </table>
     </div>
-
 </div>
 <div class="row" style="margin:25px; text-align: center;">
     <div class="col">
@@ -27,5 +26,17 @@
     <div class="col">
         Wynik: 
         <textarea matInput type="text" [(ngModel)]="this.responseString" disabled="true" style="width:100%"></textarea>
+    </div>
+</div>
+<div class="row" style="margin: 25px; padding-top: 75px; text-align: center;">
+    <div class="col">
+        Kurs wymiany PLN dla:
+        <input matInput type="text" [(ngModel)]="this.currencyRequest" placeholder="CHF" (input)="clearExchange()">
+    </div>
+    <div class="col">
+        <button mat-raised-button color="primary" (click)="postExchangeRequest(currencyRequest)"> Check exchange</button>
+    </div>
+    <div class="col">
+        <p style="font-weight: 600;"> 1 {{currencyRequest}} = {{exchangeResponse}} <span *ngIf="exchangeResponse"> PLN </span> </p>
     </div>
 </div>

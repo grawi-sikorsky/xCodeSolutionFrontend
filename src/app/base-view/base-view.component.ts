@@ -1,5 +1,6 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Component } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { NumbersRequest, NumbersResponse } from '../numbers-request';
 
 @Component({
@@ -8,10 +9,11 @@ import { NumbersRequest, NumbersResponse } from '../numbers-request';
   styleUrls: ['./base-view.component.css']
 })
 export class BaseViewComponent {
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private snackBar: MatSnackBar) { }
 
   apiUrl: string = "http://localhost:8080/numbers/sort-command"
   testUrl: string = "http://localhost:8080/status/ping"
+  exchangeUrl: string = "http://localhost:8080/currencies/get-current-currency-value-command";
 
   pong: string = "";
   pongCounter: number = 0;
@@ -21,6 +23,8 @@ export class BaseViewComponent {
   orderByAscending: boolean = true;
   numbersString: string = "";
   responseString: string = "";
+  currencyRequest: string = "";
+  exchangeResponse: string = "";
 
   ngOnInit() {
 
@@ -58,6 +62,32 @@ export class BaseViewComponent {
     if (this.orderByAscending) this.numbersRequest.order = "ASC"
     else this.numbersRequest.order = "DESC";
     this.submitNumbers();
+  }
+
+  // 3 czesc out of the record
+  postExchangeRequest(inputCurrency: string) {
+    let currencyReq = { currency: inputCurrency }
+
+    this.http.post<{ value: string }>(this.exchangeUrl, currencyReq).subscribe(
+      {
+        next: (response) => this.exchangeResponse = response.value,
+        error: (e: HttpErrorResponse) => this.openSnackBar(e.error)
+      }
+    )
+  }
+
+  openSnackBar(error: string) {
+    this.snackBar.open(error, 'Zamknij', {
+      horizontalPosition: 'center',
+      verticalPosition: 'top',
+      duration: 2500,
+      panelClass: 'snack-error'
+
+    });
+  }
+
+  clearExchange(){
+    this.exchangeResponse = "";
   }
 
 }
